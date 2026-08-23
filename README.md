@@ -57,6 +57,17 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.2 — mobile-friendly fixes + emoji ke Lucide icon
+
+- Input pencarian dinaikkan ke `font-size:16px` — di bawah itu Safari iOS
+  otomatis melakukan zoom saat input di-tap, yang terasa mengganggu di HP.
+- Semua tombol ikon (`.icon-btn`, `.icon-btn-circle`, kontrol Now Playing)
+  dinaikkan ke area sentuh minimal 44×44px sesuai rekomendasi Apple HIG /
+  WCAG untuk target sentuh di layar kecil.
+- Karakter simbol yang dipakai sebagai "ikon" (♪ ♫ ◐ ⇩ di empty-state dan
+  placeholder cover album) diganti semua dengan SVG Lucide asli, konsisten
+  dengan ikon lain yang sudah dipakai di seluruh app.
+
 ## v1.2.1 — perbaikan stuck loader + selesaikan panel Now Playing
 
 - **Bug utama diperbaiki**: `app.js` sempat mereferensikan elemen modal lama
