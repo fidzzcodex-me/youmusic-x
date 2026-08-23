@@ -57,6 +57,22 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.3 — halaman bisa digeser ke samping (horizontal scroll) diperbaiki
+
+- Akar masalah: item di dalam grid "Quick Picks" (`.song-card`) memakai judul
+  dengan `white-space:nowrap` + ellipsis, tapi elemen grid secara default
+  punya `min-width:auto` — artinya dia menolak menyusut lebih kecil dari
+  panjang teks aslinya. Judul lagu yang panjang (mis. "Masa ini, Nanti, dan
+  Masa Indah Lainnya") memaksa card & seluruh grid melebar melebihi lebar
+  layar, dan karena tidak ada yang menahannya, seluruh halaman jadi bisa
+  discroll ke samping.
+- Diperbaiki dengan menambahkan `min-width:0` pada `.grid-2`, `.song-card`,
+  dan wrapper judul/artis di panel Now Playing (`.np-meta > div`), supaya
+  ellipsis benar-benar memotong teks alih-alih mendorong layout melebar.
+- Ditambah juga `overflow-x:hidden` pada `<html>` sebagai pengaman tambahan,
+  supaya bug serupa di elemen lain di masa depan tidak lagi bisa membuat
+  seluruh halaman bisa digeser ke samping.
+
 ## v1.2.2 — mobile-friendly fixes + emoji ke Lucide icon
 
 - Input pencarian dinaikkan ke `font-size:16px` — di bawah itu Safari iOS
