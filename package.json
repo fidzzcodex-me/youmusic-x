@@ -1,0 +1,9 @@
+{
+  "name": "youmusic",
+  "version": "1.0.0",
+  "private": true,
+  "description": "YouMusic - YouTube music streaming PWA",
+  "dependencies": {
+    "axios": "^1.7.7"
+  }
+}
