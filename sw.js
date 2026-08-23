@@ -1,7 +1,7 @@
 // Bump this version whenever the caching STRATEGY itself changes.
 // Ordinary app updates (html/css/js edits) no longer require a bump —
 // shell files use network-first below, so new deploys show up right away.
-const SHELL_CACHE = 'youmusic-shell-v2';
+const SHELL_CACHE = 'youmusic-shell-v3';
 const SHELL_FILES = [
   '/',
   '/index.html',
@@ -39,7 +39,7 @@ self.addEventListener('fetch', (event) => {
     // This is what keeps future updates (CSS/JS fixes, etc.) from getting
     // stuck behind a stale cached copy of the app shell.
     event.respondWith(
-      fetch(request)
+      fetch(request, { cache: 'no-store' })
         .then((res) => {
           const copy = res.clone();
           caches.open(SHELL_CACHE).then((cache) => cache.put(request, copy)).catch(() => {});
