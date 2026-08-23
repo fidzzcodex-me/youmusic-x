@@ -422,16 +422,21 @@
     try {
       if ('caches' in window) {
         const cache = await caches.open(OFFLINE_CACHE);
-        await cache.add(song._audioUrl);
+        // The audio URL is a cross-origin YouTube CDN link with no CORS headers.
+        // cache.add()/fetch() in "cors" mode would be blocked outright, so we
+        // fetch in "no-cors" mode (opaque response) and store it manually —
+        // opaque responses can still be cached and replayed for playback.
+        const res = await fetch(song._audioUrl, { mode: 'no-cors' });
+        await cache.put(song._audioUrl, res);
       }
       const list = await getOfflineList();
-      if (!list.some((s) => s.videoId === song.videoId)) {
-        list.push({ ...song });
-        saveOfflineList(list);
-      }
+      const idx = list.findIndex((s) => s.videoId === song.videoId);
+      const entry = { ...song };
+      if (idx >= 0) list[idx] = entry; else list.push(entry);
+      saveOfflineList(list);
       toast('Lagu tersimpan untuk diputar offline.');
     } catch (e) {
-      toast('Gagal menyimpan lagu offline.');
+      toast('Gagal menyimpan lagu offline. Periksa koneksi internetmu.');
     } finally {
       if (btn) btn.disabled = false;
     }
@@ -536,6 +541,24 @@
       setPlayerIcon('pause');
       refreshSongRowsUI();
     } catch (e) {
+      // Live URL fetch failed (commonly: no internet). If this song was
+      // downloaded earlier, its exact audio URL is still in the offline
+      // cache (via the service worker) — replay from there instead of
+      // failing outright.
+      const offlineList = await getOfflineList();
+      const offlineEntry = offlineList.find((s) => s.videoId === song.videoId && s._audioUrl);
+      if (offlineEntry) {
+        try {
+          song._audioUrl = offlineEntry._audioUrl;
+          audio.src = offlineEntry._audioUrl;
+          await audio.play();
+          state.isPlaying = true;
+          state.isLoadingSong = false;
+          setPlayerIcon('pause');
+          refreshSongRowsUI();
+          return;
+        } catch (e2) { /* fall through to error toast below */ }
+      }
       state.isLoadingSong = false;
       setPlayerIcon('play');
       toast('Gagal memutar lagu. Coba lagu lain.');
