@@ -57,6 +57,34 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.5 — akar masalah sebenarnya: Service Worker nyimpen file lama
+
+Semua perbaikan CSS/JS di versi-versi sebelumnya (horizontal scroll, dll)
+kemungkinan **tidak pernah benar-benar sampai ke browser** kamu. Penyebabnya:
+
+- `sw.js` men-cache `index.html`, `style.css`, `app.js` dengan strategi
+  **cache-first** (`SHELL_CACHE = 'youmusic-shell-v1'`), dan isi `sw.js`
+  itu sendiri tidak pernah berubah antar deploy — jadi browser tidak
+  pernah mendeteksi ada Service Worker versi baru, dan terus menyajikan
+  file shell yang tersimpan dari kunjungan PERTAMA kali, selamanya.
+- Diperbaiki dengan mengganti strategi shell file jadi **network-first**
+  (selalu coba ambil versi terbaru dari server dulu, baru fallback ke
+  cache kalau memang tidak ada internet). File audio yang sudah
+  didownload untuk offline tetap cache-first seperti biasa (memang harus
+  begitu supaya bisa diputar tanpa internet).
+- Nama cache juga dinaikkan ke `v2` supaya perubahan ini sendiri pasti
+  terdeteksi sebagai Service Worker baru oleh browser.
+
+**PENTING setelah deploy ulang**: karena Service Worker lama masih
+mengontrol tab yang sedang terbuka, lakukan salah satu dari ini sekali saja
+supaya Service Worker baru benar-benar mengambil alih:
+- Tutup tab, buka lagi (paling gampang), **atau**
+- Buka DevTools → Application → Service Workers → klik "Unregister", lalu
+  refresh halaman.
+
+Setelah itu, setiap update berikutnya akan otomatis muncul tanpa perlu
+langkah manual lagi.
+
 ## v1.2.4 — download offline diperbaiki (CORS + URL kadaluarsa)
 
 - **Bug utama**: `downloadCurrentSong()` memakai `cache.add(url)`, yang di
