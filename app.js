@@ -48,7 +48,7 @@
     const colors = ['#1F2937', '#111827', '#3B0F1F', '#0F2A24', '#1A1035'];
     const c = colors[Math.abs(hashCode(seed || 'x')) % colors.length];
     return `data:image/svg+xml,${encodeURIComponent(
-      `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" fill="${c}"/><text x="60" y="68" font-size="40" text-anchor="middle" fill="white" opacity="0.5" font-family="sans-serif">♪</text></svg>`
+      `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" fill="${c}"/><g transform="translate(30,30) scale(2.5)" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></g></svg>`
     )}`;
   }
   function hashCode(str) {
@@ -341,7 +341,7 @@
     const wrap = $('#libraryContent');
     if (libTab === 'playlists') {
       if (!state.playlists.length) {
-        wrap.innerHTML = emptyState('♫', 'Belum Ada Playlist', 'Buat playlist pertamamu dan kumpulkan lagu-lagu favoritmu di satu tempat.');
+        wrap.innerHTML = emptyState(ICON_LIST_MUSIC, 'Belum Ada Playlist', 'Buat playlist pertamamu dan kumpulkan lagu-lagu favoritmu di satu tempat.');
         return;
       }
       wrap.innerHTML = `<div class="list">${state.playlists.map((p, i) => `
@@ -352,7 +352,7 @@
     } else {
       const artistNames = [...new Set(state.liked.map((s) => s.artist).filter(Boolean))];
       if (!artistNames.length) {
-        wrap.innerHTML = emptyState('◐', 'Belum Ada Artis', 'Artis dari lagu yang kamu suka akan muncul di sini.');
+        wrap.innerHTML = emptyState(ICON_MIC, 'Belum Ada Artis', 'Artis dari lagu yang kamu suka akan muncul di sini.');
         return;
       }
       wrap.innerHTML = `<div class="list">${artistNames.map((n, i) => `
@@ -360,14 +360,18 @@
     }
   }
 
-  function emptyState(icon, title, desc, btnLabel, btnId) {
+  function emptyState(iconSvg, title, desc, btnLabel, btnId) {
     return `<div class="empty-card">
-      <div class="icon-xl" style="font-size:44px">${icon}</div>
+      <div class="icon-xl">${iconSvg}</div>
       <h3>${escapeHtml(title)}</h3>
       <p>${escapeHtml(desc)}</p>
       ${btnLabel ? `<button class="btn-outline" id="${btnId}">${escapeHtml(btnLabel)}</button>` : ''}
     </div>`;
   }
+
+  const ICON_LIST_MUSIC = '<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM12 12v6M9.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM21 6l-9 3-6-3"/></svg>';
+  const ICON_MIC = '<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>';
+  const ICON_DOWNLOAD = '<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 
   function updateNetBadge() {
     const badge = $('#netBadge');
@@ -389,7 +393,7 @@
     const wrap = $('#offlineContent');
     const list = await getOfflineList();
     if (!list.length) {
-      wrap.innerHTML = emptyState('⇩', 'Belum Ada Lagu Offline', 'Simpan lagu favoritmu untuk diputar tanpa koneksi internet.', 'Klik ikon Download di pemutar lagu');
+      wrap.innerHTML = emptyState(ICON_DOWNLOAD, 'Belum Ada Lagu Offline', 'Simpan lagu favoritmu untuk diputar tanpa koneksi internet.', 'Klik ikon Download di pemutar lagu');
       return;
     }
     wrap.innerHTML = `<div class="list">${list.map((s, i) => `
