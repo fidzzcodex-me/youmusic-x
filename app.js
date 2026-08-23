@@ -656,6 +656,24 @@
     seeking = false;
   });
 
+  const RESUME_KEY = 'ym_resume';
+  function saveResumeState() {
+    if (!state.currentSong || !state.currentSong._audioUrl) return;
+    try {
+      localStorage.setItem(RESUME_KEY, JSON.stringify({
+        song: state.currentSong,
+        audioUrl: state.currentSong._audioUrl,
+        currentTime: audio.currentTime || 0,
+        queue: state.queue,
+        queueIndex: state.queueIndex,
+        shuffle: state.shuffle,
+        repeat: state.repeat,
+        wasPlaying: !audio.paused,
+      }));
+    } catch (e) { /* storage full or unavailable — ignore */ }
+  }
+
+  let lastResumeSave = 0;
   audio.addEventListener('ended', () => {
     state.isPlaying = false;
     if (state.repeat === 'one') { audio.currentTime = 0; audio.play(); return; }
@@ -663,8 +681,8 @@
     refreshSongRowsUI();
     playRelative(1);
   });
-  audio.addEventListener('pause', () => { if (!state.isLoadingSong) { state.isPlaying = false; setPlayerIcon('play'); refreshSongRowsUI(); } });
-  audio.addEventListener('play', () => { state.isPlaying = true; setPlayerIcon('pause'); refreshSongRowsUI(); });
+  audio.addEventListener('pause', () => { if (!state.isLoadingSong) { state.isPlaying = false; setPlayerIcon('play'); refreshSongRowsUI(); saveResumeState(); } });
+  audio.addEventListener('play', () => { state.isPlaying = true; setPlayerIcon('pause'); refreshSongRowsUI(); saveResumeState(); });
   audio.addEventListener('timeupdate', () => {
     if (!audio.duration) return;
     const pct = (audio.currentTime / audio.duration) * 100;
@@ -672,7 +690,56 @@
     if (!seeking && seekBar) seekBar.value = pct;
     const cur = $('#timeCurrent'); if (cur) cur.textContent = formatTime(audio.currentTime);
     const dur = $('#timeDuration'); if (dur) dur.textContent = formatTime(audio.duration);
+    const now = Date.now();
+    if (now - lastResumeSave > 4000) { lastResumeSave = now; saveResumeState(); }
   });
+  window.addEventListener('beforeunload', saveResumeState);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveResumeState(); });
+
+  async function restorePlaybackState() {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(RESUME_KEY) || 'null'); } catch (e) { return; }
+    if (!saved || !saved.song || !saved.audioUrl) return;
+
+    state.currentSong = saved.song;
+    state.currentSong._audioUrl = saved.audioUrl;
+    state.queue = Array.isArray(saved.queue) && saved.queue.length ? saved.queue : [saved.song];
+    state.queueIndex = typeof saved.queueIndex === 'number' ? saved.queueIndex : 0;
+    state.shuffle = !!saved.shuffle;
+    state.repeat = saved.repeat || 'off';
+    const shuffleBtn = $('#btnShuffle'); if (shuffleBtn) shuffleBtn.classList.toggle('active', state.shuffle);
+    const repeatBtn = $('#btnRepeat'); if (repeatBtn) {
+      repeatBtn.classList.toggle('active', state.repeat !== 'off');
+      repeatBtn.classList.toggle('repeat-one', state.repeat === 'one');
+    }
+
+    syncNowPlayingMeta(state.currentSong);
+    playerBar.classList.remove('hidden');
+    updateLikeUI();
+    renderQueueTab();
+    setPlayerIcon(saved.wasPlaying ? 'pause' : 'play');
+
+    audio.src = saved.audioUrl;
+    const resumeAt = Number(saved.currentTime) || 0;
+    const onceReady = () => {
+      audio.currentTime = resumeAt;
+      audio.removeEventListener('loadedmetadata', onceReady);
+    };
+    audio.addEventListener('loadedmetadata', onceReady);
+
+    // If the saved CDN URL has since expired, the browser will fire an
+    // 'error' event instead of ever playing — fetch a fresh URL for the
+    // same song in that case (same fallback used for the offline case).
+    const onError = () => {
+      audio.removeEventListener('error', onError);
+      playSong(state.currentSong, state.queue);
+    };
+    audio.addEventListener('error', onError, { once: true });
+
+    if (saved.wasPlaying) {
+      audio.play().catch(() => { setPlayerIcon('play'); state.isPlaying = false; /* autoplay blocked without a user gesture — leave it paused, ready to resume manually */ });
+    }
+  }
 
   function refreshSongRowsUI() {
     if (state.screen === 'search') renderSearchResults();
@@ -751,6 +818,7 @@
     }
     goTo('home');
     requestAnimationFrame(() => moveTabIndicator($('#searchTabs .tab.active')));
+    restorePlaybackState();
   } catch (e) {
     console.error('YouMusic init error:', e);
   } finally {
