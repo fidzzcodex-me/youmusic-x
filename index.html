@@ -230,7 +230,7 @@
   </button>
 </nav>
 
-<div class="now-playing hidden" id="nowPlaying">
+<div class="now-playing" id="nowPlaying">
   <div class="np-header">
     <button class="icon-btn" id="btnCollapsePlayer" aria-label="Tutup">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -296,6 +296,24 @@
 
   <div class="np-body hidden" id="npBodyQueue">
     <div id="queueContent" class="list" style="padding:0"></div>
+  </div>
+</div>
+
+<div class="modal hidden" id="artistModal">
+  <div class="modal-backdrop" id="artistModalBackdrop"></div>
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="row-between">
+      <div>
+        <div id="artistModalTitle" style="font-size:19px;font-weight:800;">—</div>
+        <div id="artistModalSubtitle" class="muted small">Artis</div>
+      </div>
+      <button class="icon-btn" id="btnCloseArtistModal" aria-label="Tutup">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-tabs muted small">LAGU TERPOPULER</div>
+    <div id="artistModalList"></div>
   </div>
 </div>
 
