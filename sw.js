@@ -1,4 +1,7 @@
-const SHELL_CACHE = 'youmusic-shell-v1';
+// Bump this version whenever the caching STRATEGY itself changes.
+// Ordinary app updates (html/css/js edits) no longer require a bump —
+// shell files use network-first below, so new deploys show up right away.
+const SHELL_CACHE = 'youmusic-shell-v2';
 const SHELL_FILES = [
   '/',
   '/index.html',
@@ -31,12 +34,27 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   if (SHELL_FILES.includes(url.pathname)) {
-    event.respondWith(caches.match(request).then((cached) => cached || fetch(request)));
+    // Network-first: always try to fetch the latest deployed version first,
+    // and only fall back to the cached copy when there's no connection.
+    // This is what keeps future updates (CSS/JS fixes, etc.) from getting
+    // stuck behind a stale cached copy of the app shell.
+    event.respondWith(
+      fetch(request)
+        .then((res) => {
+          const copy = res.clone();
+          caches.open(SHELL_CACHE).then((cache) => cache.put(request, copy)).catch(() => {});
+          return res;
+        })
+        .catch(() => caches.match(request))
+    );
     return;
   }
 
   if (url.pathname.startsWith('/api/')) return;
 
+  // Everything else (icons, and downloaded offline audio) stays
+  // cache-first — this is what makes downloaded songs playable with
+  // no internet connection at all.
   event.respondWith(
     caches.match(request).then((cached) => cached || fetch(request).catch(() => cached))
   );
