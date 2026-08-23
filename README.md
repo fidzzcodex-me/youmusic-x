@@ -57,6 +57,34 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.7 — kotak dobel biru di search bar diperbaiki
+
+- Yang terlihat "dobel garis biru" itu bukan bug CSS pill kita — itu kotak
+  highlight autofill bawaan Android/Chrome (Autofill Framework) yang
+  ditumpuk di atas border pill custom app, karena `<form>` pencarian
+  belum secara eksplisit bilang "jangan autofill" ke browser/OS.
+- Diperbaiki dengan menambahkan `autocomplete="off"` pada elemen `<form>`
+  itu sendiri (bukan cuma di `<input>`), plus `autocorrect="off"`,
+  `autocapitalize="off"`, `spellcheck="false"`, dan nama field yang tidak
+  match pola heuristik login/username. Ditambah lapisan CSS
+  (`appearance:none`, `outline:none` dengan spesifisitas lebih tinggi)
+  sebagai jaga-jaga kedua.
+
+## v1.2.6 — resume playback setelah refresh + SW hardening lanjutan
+
+- **Lagu tidak hilang saat browser di-refresh**: posisi putar, lagu yang
+  sedang aktif, antrean, dan status shuffle/repeat sekarang disimpan ke
+  `localStorage` (throttled tiap ~4 detik + setiap pause/tab disembunyikan/
+  sebelum halaman ditutup). Saat app dibuka ulang, state ini otomatis
+  dipulihkan: mini player langsung muncul di posisi terakhir, dan kalau
+  sebelumnya sedang diputar, browser akan mencoba melanjutkan otomatis
+  (kalau diblokir autoplay oleh browser, lagu tetap siap di posisi yang
+  benar tinggal ditekan Play). Kalau URL audio yang tersimpan sudah
+  kadaluarsa, app otomatis minta URL baru untuk lagu yang sama.
+- SW dinaikkan ke `v3` + fetch shell file sekarang pakai `cache:'no-store'`
+  supaya HTTP cache bawaan browser juga tidak bisa menyembunyikan deploy
+  baru di lapisan manapun.
+
 ## v1.2.5 — akar masalah sebenarnya: Service Worker nyimpen file lama
 
 Semua perbaikan CSS/JS di versi-versi sebelumnya (horizontal scroll, dll)
