@@ -57,6 +57,25 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.4 — download offline diperbaiki (CORS + URL kadaluarsa)
+
+- **Bug utama**: `downloadCurrentSong()` memakai `cache.add(url)`, yang di
+  balik layar melakukan fetch mode `cors`. URL audio berasal dari CDN
+  YouTube (`googlevideo.com`) yang cross-origin dan tidak mengirim header
+  CORS — jadi fetch-nya selalu diblokir browser dan `cache.add()` selalu
+  gagal (toast "Gagal menyimpan lagu offline"). Diperbaiki dengan fetch
+  mode `no-cors` (opaque response) lalu disimpan manual lewat `cache.put()`
+  — pola standar untuk cache resource cross-origin di PWA.
+- **Bug kedua**: URL audio dari YouTube itu punya signature & masa berlaku
+  yang berubah tiap kali diminta. Sebelumnya, memutar ulang lagu offline
+  tetap selalu minta URL baru ke `/api/ytplay` dulu — kalau lagi tanpa
+  internet, permintaan itu gagal duluan sebelum sempat cek cache, jadi
+  lagu yang "sudah didownload" tetap tidak bisa diputar offline.
+  Sekarang kalau permintaan URL live gagal (mis. tanpa internet) dan lagu
+  itu ada di daftar offline, pemutar otomatis jatuh balik ke URL persis
+  yang tersimpan di cache saat download — dan Service Worker akan
+  menyajikannya dari cache.
+
 ## v1.2.3 — halaman bisa digeser ke samping (horizontal scroll) diperbaiki
 
 - Akar masalah: item di dalam grid "Quick Picks" (`.song-card`) memakai judul
