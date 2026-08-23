@@ -105,7 +105,8 @@ img{-webkit-user-drag:none;}
 .search-bar-row{display:flex; gap:10px; padding:14px 20px 0;}
 .search-bar{flex:1; display:flex; align-items:center; gap:8px; background:var(--card); border-radius:var(--r-pill); padding:12px 16px; color:var(--muted); border:1px solid transparent; transition:border-color var(--fast) var(--ease);}
 .search-bar:focus-within{border-color:var(--blue);}
-.search-bar input{flex:1; background:none; border:none; outline:none; color:var(--text); font-size:16px; font-family:inherit; min-width:0;}
+.search-bar input{flex:1; background:none; border:none; outline:none; color:var(--text); font-size:16px; font-family:inherit; min-width:0; -webkit-appearance:none; appearance:none; box-shadow:none;}
+#searchInput:focus{outline:none; box-shadow:none;}
 .clear-x{background:var(--card2); border:none; color:var(--muted); width:20px; height:20px; border-radius:var(--r-pill); font-size:11px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
 .btn-pill-white{background:#fff; color:#000; border:none; border-radius:var(--r-pill); padding:0 22px; font-weight:700;}
 .suggest-box{margin:8px 20px 0; background:var(--card); border-radius:var(--r-md); overflow:hidden; animation:dropIn 220ms var(--ease);}
