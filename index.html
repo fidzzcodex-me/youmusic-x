@@ -33,8 +33,12 @@
       <div class="hero-top" data-aos="fade-down" data-aos-duration="500">
         <h1 class="hero-title">YouMusic</h1>
         <div class="hero-actions">
-          <button class="icon-btn" data-nav="search" aria-label="Cari"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-          <button class="icon-btn" data-nav="profile" aria-label="Profil"><svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></button>
+          <button class="icon-btn" data-nav="search" aria-label="Cari">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <button class="icon-btn" data-nav="profile" aria-label="Profil">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
+          </button>
         </div>
       </div>
       <div class="chip-row" id="homeFilters" data-aos="fade-up" data-aos-duration="500" data-aos-delay="80">
@@ -45,7 +49,10 @@
     </header>
 
     <section class="section" data-aos="fade-up" data-aos-duration="500">
-      <h2 class="section-title"><span class="ico">⚡</span> Quick Picks</h2>
+      <h2 class="section-title">
+        <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Quick Picks
+      </h2>
       <div class="grid-2" id="quickPicks">
         <div class="skeleton-card"></div><div class="skeleton-card"></div>
         <div class="skeleton-card"></div><div class="skeleton-card"></div>
@@ -53,20 +60,25 @@
     </section>
 
     <section class="section" data-aos="fade-up" data-aos-duration="500">
-      <h2 class="section-title"><span class="ico">◎</span> Popular Playlists</h2>
+      <h2 class="section-title">
+        <svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM12 12v6M9.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM21 6l-9 3-6-3"/></svg>
+        Popular Playlists
+      </h2>
       <div class="hscroll" id="popularPlaylists"></div>
     </section>
   </section>
 
   <section class="screen hidden" id="screen-search" data-screen="search">
-    <header class="page-header">
+    <header class="page-header" data-aos="fade-down" data-aos-duration="400">
       <h1>Cari</h1>
     </header>
-    <form id="searchForm" class="search-bar-row">
+    <form id="searchForm" class="search-bar-row" data-aos="fade-up" data-aos-duration="400">
       <div class="search-bar">
-        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input id="searchInput" type="text" placeholder="Cari lagu, artis..." autocomplete="off" inputmode="search">
-        <button type="button" id="btnClearSearch" class="clear-x hidden" aria-label="Hapus">✕</button>
+        <button type="button" id="btnClearSearch" class="clear-x hidden" aria-label="Hapus">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
       <button type="submit" class="btn-pill-white">Cari</button>
     </form>
@@ -83,34 +95,50 @@
   </section>
 
   <section class="screen hidden" id="screen-library" data-screen="library">
-    <header class="page-header"><h1>Library</h1></header>
-    <div class="segmented">
-      <button class="seg active" data-libtab="playlists"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 6h13M3 12h13M3 18h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="17" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg> Playlists</button>
-      <button class="seg" data-libtab="artists"><svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg> Artists</button>
+    <header class="page-header" data-aos="fade-down" data-aos-duration="400"><h1>Library</h1></header>
+    <div class="segmented" data-aos="fade-up" data-aos-duration="400">
+      <button class="seg active" data-libtab="playlists">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM12 12v6M9.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM21 6l-9 3-6-3"/></svg>
+        Playlists
+      </button>
+      <button class="seg" data-libtab="artists">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
+        Artists
+      </button>
     </div>
-    <button class="btn-block" id="btnNewPlaylist">+ Buat Playlist Baru</button>
+    <button class="btn-block" id="btnNewPlaylist" data-aos="fade-up" data-aos-duration="400" data-aos-delay="60">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Buat Playlist Baru
+    </button>
     <div id="libraryContent"></div>
   </section>
 
   <section class="screen hidden" id="screen-offline" data-screen="offline">
-    <header class="page-header row-between">
+    <header class="page-header row-between" data-aos="fade-down" data-aos-duration="400">
       <div>
         <h1>Offline Mode <span class="badge-online" id="netBadge">ONLINE</span></h1>
         <p class="muted small">PWA Storage &amp; Saved Songs</p>
       </div>
-      <button class="icon-btn-circle" id="btnClearOffline" aria-label="Bersihkan"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M2 2l20 20M8.5 3h7l1 2H16v13a2 2 0 01-2 2H10a2 2 0 01-2-2V5H6.5l1-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      </header>
+      <button class="icon-btn-circle" id="btnClearOffline" aria-label="Bersihkan">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+      </button>
+    </header>
     <div id="offlineContent"></div>
   </section>
 
   <section class="screen hidden" id="screen-liked" data-screen="liked">
-    <header class="page-header row-between">
+    <header class="page-header row-between" data-aos="fade-down" data-aos-duration="400">
       <h1>Liked Songs</h1>
-      <div class="heart-badge active"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg></div>
+      <div class="heart-badge active">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg>
+      </div>
     </header>
-    <div class="row-between muted small" style="padding:0 20px;margin-bottom:8px">
+    <div class="row-between muted small" style="padding:0 20px;margin-bottom:8px" data-aos="fade-up" data-aos-duration="350">
       <span id="likedCount">0 LAGU TERSIMPAN</span>
-      <button class="link-btn" id="btnPlayAllLiked">▶ Putar Semua</button>
+      <button class="link-btn" id="btnPlayAllLiked">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Putar Semua
+      </button>
     </div>
     <div id="likedContent" class="list"></div>
   </section>
@@ -127,21 +155,30 @@
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-duration="450">
-      <div class="card-title"><span class="ico red">▮</span> APLIKASI &amp; PWA</div>
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        APLIKASI &amp; PWA
+      </div>
       <div class="kv"><span>Nama</span><b>YouMusic</b></div>
-      <div class="kv"><span>Versi</span><b>v1.1.0</b></div>
-      <div class="kv"><span>Mode Offline PWA</span><b class="ok" id="pwaStatus">● Aktif</b></div>
+      <div class="kv"><span>Versi</span><b>v1.2.0</b></div>
+      <div class="kv"><span>Mode Offline PWA</span><b class="ok" id="pwaStatus">Aktif</b></div>
       <div class="kv"><span>Service Worker</span><b id="swStatus">Mendaftar...</b></div>
       <div class="kv"><span>Cache PWA tersimpan</span><a href="#" class="link-btn danger" id="btnBersihkanCache">Bersihkan Cache</a></div>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-duration="450" data-aos-delay="80">
-      <div class="card-title"><span class="ico red">&lt;/&gt;</span> DEVELOPER PROFILE</div>
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        DEVELOPER PROFILE
+      </div>
       <div class="kv"><span>Developed by</span><b>Fidss</b></div>
     </div>
 
     <div class="card" data-aos="fade-up" data-aos-duration="450" data-aos-delay="160">
-      <div class="card-title"><span class="ico red">♥</span> LAGU YANG DISUKAI</div>
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg>
+        LAGU YANG DISUKAI
+      </div>
       <div id="profileLikedPreview" class="muted small" style="padding:8px 0">Belum ada lagu disukai.</div>
     </div>
   </section>
@@ -155,56 +192,110 @@
     <div class="player-title" id="playerTitle">—</div>
     <div class="player-artist" id="playerArtist">—</div>
   </div>
-  <button class="round-btn" id="btnDownload" aria-label="Download"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <button class="round-btn primary" id="btnPlayPause" aria-label="Play/Pause">
-    <svg id="iconPlay" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-    <svg id="iconPause" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="hidden"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-    <svg id="iconLoading" viewBox="0 0 24 24" width="18" height="18" class="hidden spin"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="42" stroke-linecap="round"/></svg>
+  <button class="round-btn" id="btnPlayPause" aria-label="Play/Pause">
+    <svg id="iconPlay" viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="iconPause" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" class="hidden"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+    <svg id="iconLoading" viewBox="0 0 24 24" width="17" height="17" class="hidden spin" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9" stroke-dasharray="42" stroke-linecap="round"/></svg>
   </button>
-  <button class="round-btn" id="btnLike" aria-label="Suka"><svg viewBox="0 0 24 24" width="18" height="18" id="likeHeart" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg></button>
+  <button class="round-btn" id="btnLike" aria-label="Suka">
+    <svg viewBox="0 0 24 24" width="17" height="17" id="likeHeart" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg>
+  </button>
 </div>
 
 <nav class="bottom-nav">
   <div class="nav-pill" id="navPill"></div>
   <button class="nav-item active" data-nav="home">
-    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 11l9-8 9 8M5 10v10h14V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
     <span>Home</span>
   </button>
   <button class="nav-item" data-nav="search">
-    <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <span>Search</span>
   </button>
   <button class="nav-item" data-nav="library">
-    <svg viewBox="0 0 24 24" width="20" height="20"><rect x="3" y="4" width="4" height="16" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="10" y="8" width="4" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><rect x="17" y="2" width="4" height="18" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="4" height="16" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="17" y="2" width="4" height="18" rx="1"/></svg>
     <span>Library</span>
   </button>
   <button class="nav-item" data-nav="offline">
-    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M2 2l20 20M8.5 16.5a5 5 0 017 0M5 13a9 9 0 015-2.5M12 20h.01M16 10a9 9 0 013 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="2" x2="22" y2="22"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 13a9 9 0 0 1 5-2.5"/><path d="M16 10a9 9 0 0 1 3 2"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
     <span>Offline</span>
   </button>
   <button class="nav-item" data-nav="liked">
-    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg>
     <span>Liked</span>
   </button>
   <button class="nav-item" data-nav="profile">
-    <svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
     <span>Profile</span>
   </button>
 </nav>
 
-<div class="modal hidden" id="lyricsModal">
-  <div class="modal-backdrop" id="modalBackdrop"></div>
-  <div class="modal-sheet">
-    <div class="modal-handle"></div>
-    <div class="row-between">
-      <h2 id="modalTitle">—</h2>
-      <button class="icon-btn" id="btnCloseModal">✕</button>
+<div class="now-playing hidden" id="nowPlaying">
+  <div class="np-header">
+    <button class="icon-btn" id="btnCollapsePlayer" aria-label="Tutup">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <span class="np-eyebrow">Sedang Diputar</span>
+    <button class="icon-btn" id="btnDownloadFull" aria-label="Download">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+  </div>
+
+  <div class="np-tabs">
+    <button class="np-tab active" data-nptab="player">Player</button>
+    <button class="np-tab" data-nptab="lyrics">Lirik</button>
+    <button class="np-tab" data-nptab="queue">Antrean</button>
+  </div>
+
+  <div class="np-body" id="npBodyPlayer">
+    <div class="np-cover-wrap">
+      <img id="npCover" class="np-cover" src="" alt="">
     </div>
-    <p class="muted" id="modalArtist">—</p>
-    <div class="modal-tabs">
-      <button class="tab active">Lirik</button>
+    <div class="np-meta">
+      <div>
+        <div class="np-title" id="npTitle">—</div>
+        <div class="np-artist" id="npArtist">—</div>
+      </div>
+      <button class="round-btn" id="btnLikeFull" aria-label="Suka">
+        <svg viewBox="0 0 24 24" width="20" height="20" id="likeHeartFull" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7.5-4.7-10-9.2C0.3 8.5 2 5 5.5 5c2 0 3.4 1.1 4.5 2.6C11.1 6.1 12.5 5 14.5 5 18 5 19.7 8.5 22 11.8 19.5 16.3 12 21 12 21z"/></svg>
+      </button>
     </div>
+
+    <div class="np-seek">
+      <input type="range" id="seekBar" min="0" max="100" value="0" step="0.1">
+      <div class="np-time row-between">
+        <span id="timeCurrent">0:00</span>
+        <span id="timeDuration">0:00</span>
+      </div>
+    </div>
+
+    <div class="np-controls">
+      <button class="np-ctrl" id="btnShuffle" aria-label="Acak">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+      </button>
+      <button class="np-ctrl" id="btnPrev" aria-label="Sebelumnya">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><rect x="5" y="4" width="2.5" height="16"/></svg>
+      </button>
+      <button class="np-ctrl np-ctrl-main" id="btnPlayPauseFull" aria-label="Play/Pause">
+        <svg id="npIconPlay" viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="npIconPause" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" class="hidden"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        <svg id="npIconLoading" viewBox="0 0 24 24" width="26" height="26" class="hidden spin" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9" stroke-dasharray="42" stroke-linecap="round"/></svg>
+      </button>
+      <button class="np-ctrl" id="btnNext" aria-label="Berikutnya">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><rect x="16.5" y="4" width="2.5" height="16"/></svg>
+      </button>
+      <button class="np-ctrl" id="btnRepeat" aria-label="Ulangi">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="np-body hidden" id="npBodyLyrics">
     <div id="lyricsContent" class="lyrics-content"></div>
+  </div>
+
+  <div class="np-body hidden" id="npBodyQueue">
+    <div id="queueContent" class="list" style="padding:0"></div>
   </div>
 </div>
 
