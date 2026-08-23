@@ -57,6 +57,27 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.1 — perbaikan stuck loader + selesaikan panel Now Playing
+
+- **Bug utama diperbaiki**: `app.js` sempat mereferensikan elemen modal lama
+  (`#btnDownload`, `#modalTitle`, `#modalArtist`, `#lyricsModal`, `#btnCloseModal`,
+  `#modalBackdrop`) yang sudah dihapus saat redesain ke panel "Now Playing".
+  `querySelector` mengembalikan `null` lalu `.addEventListener` di atasnya
+  melempar error, sehingga seluruh script berhenti sebelum sempat
+  menyembunyikan splash loader — app terlihat "stuck" selamanya di layar loading.
+- Panel Now Playing (tab Player / Lirik / Antrean) sekarang punya CSS lengkap
+  (sebelumnya markup-nya ada tapi tanpa gaya sama sekali) dan benar-benar
+  berfungsi: cover besar, seek bar, play/pause, next/prev, shuffle, repeat
+  (off/all/one), like, dan download — semua tersambung ke audio player yang
+  sesungguhnya, plus antrean lagu otomatis dibangun dari list yang lagi
+  ditampilkan (Home, hasil pencarian, Liked, Offline, lagu top artis).
+- Detail artis dipindah ke modal baru (`#artistModal`) yang menggunakan gaya
+  `.modal` yang sebelumnya sudah ada di CSS tapi tak terpakai.
+- Semua event binding di level atas kini pakai helper `on()` yang null-safe,
+  supaya satu elemen yang hilang di masa depan tidak lagi menghentikan
+  seluruh aplikasi. Inisialisasi juga dibungkus `try/finally` agar splash
+  loader dijamin selalu hilang.
+
 ## v1.1.0 — polish pass
 
 - Animasi via [AOS](https://michalsnik.github.io/aos/) (scroll reveal) + micro-interaction custom
