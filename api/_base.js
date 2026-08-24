@@ -1,4 +1,4 @@
-const BASE = 'https://nanzz-musify.netlify.app';
+const BASE = 'https://nanzmusify2.netlify.app';
 
 function cors(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
