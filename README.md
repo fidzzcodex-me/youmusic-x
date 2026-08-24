@@ -57,6 +57,18 @@ vercel --prod
   menampilkan pesan placeholder.
 - **Icon**: pakai SVG monogram sederhana (`icon.svg`). Ganti dengan PNG 512×512 kalau mau ikon custom.
 
+## v1.2.8 — jembatan notifikasi Android ala Spotify
+
+- Ditambahkan `notifyNative()` dan `window.__nativeMediaCommand` di
+  `app.js`. Kalau app diakses lewat browser biasa, ini sama sekali tidak
+  berpengaruh (fungsinya diam kalau `window.AndroidPlayer` tidak ada).
+- Kalau diakses lewat APK wrapper Android (lihat project `android/` yang
+  terpisah), setiap kali lagu berganti/main/pause, web app otomatis
+  mengirim judul, artis, cover, dan posisi putar ke sisi native — dipakai
+  untuk menampilkan notifikasi "sedang memutar" dengan tombol
+  Previous/Play-Pause/Next, persis seperti Spotify, termasuk audio yang
+  tetap jalan walau app di-minimize atau layar dikunci.
+
 ## v1.2.7 — kotak dobel biru di search bar diperbaiki
 
 - Yang terlihat "dobel garis biru" itu bukan bug CSS pill kita — itu kotak
