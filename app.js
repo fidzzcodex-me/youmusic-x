@@ -565,6 +565,39 @@
     }
   }
 
+  // --- Android app wrapper bridge -------------------------------------
+  // window.AndroidPlayer only exists when running inside the YouMusic
+  // Android app's WebView (see PlayerBridge.kt). In a normal browser tab
+  // it's undefined and every call below is skipped — same code path,
+  // zero behavior change on the web.
+  function notifyNative() {
+    const bridge = window.AndroidPlayer;
+    if (!bridge || !state.currentSong) return;
+    try {
+      bridge.onPlaybackUpdate(
+        state.currentSong.title || '',
+        state.currentSong.artist || '',
+        state.currentSong.thumbnail || state.currentSong.image || '',
+        Math.round((audio.duration || 0) * 1000),
+        Math.round((audio.currentTime || 0) * 1000),
+        !audio.paused
+      );
+    } catch (e) { /* bridge not ready yet — ignore */ }
+  }
+
+  // Called by MainActivity.kt (via evaluateJavascript) when the user taps
+  // Play/Pause/Next/Previous on the Android notification, or presses a
+  // Bluetooth/headset media button.
+  window.__nativeMediaCommand = function (cmd) {
+    if (cmd === 'toggle') togglePlayPause();
+    else if (cmd === 'next') playRelative(1);
+    else if (cmd === 'previous') {
+      if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+      playRelative(-1);
+    }
+  };
+  // ----------------------------------------------------------------------
+
   function syncNowPlayingMeta(song) {
     const cover = song.thumbnail || song.image || placeholderArt(song.title);
     $('#playerTitle').textContent = song.title;
@@ -575,6 +608,7 @@
     const npCover = $('#npCover'); if (npCover) npCover.src = cover;
     state.lyricsCacheKey = null;
     if (state.npTab === 'lyrics') loadLyricsForCurrent();
+    notifyNative();
   }
 
   function playRelative(offset) {
@@ -681,8 +715,8 @@
     refreshSongRowsUI();
     playRelative(1);
   });
-  audio.addEventListener('pause', () => { if (!state.isLoadingSong) { state.isPlaying = false; setPlayerIcon('play'); refreshSongRowsUI(); saveResumeState(); } });
-  audio.addEventListener('play', () => { state.isPlaying = true; setPlayerIcon('pause'); refreshSongRowsUI(); saveResumeState(); });
+  audio.addEventListener('pause', () => { if (!state.isLoadingSong) { state.isPlaying = false; setPlayerIcon('play'); refreshSongRowsUI(); saveResumeState(); notifyNative(); } });
+  audio.addEventListener('play', () => { state.isPlaying = true; setPlayerIcon('pause'); refreshSongRowsUI(); saveResumeState(); notifyNative(); });
   audio.addEventListener('timeupdate', () => {
     if (!audio.duration) return;
     const pct = (audio.currentTime / audio.duration) * 100;
@@ -691,7 +725,7 @@
     const cur = $('#timeCurrent'); if (cur) cur.textContent = formatTime(audio.currentTime);
     const dur = $('#timeDuration'); if (dur) dur.textContent = formatTime(audio.duration);
     const now = Date.now();
-    if (now - lastResumeSave > 4000) { lastResumeSave = now; saveResumeState(); }
+    if (now - lastResumeSave > 4000) { lastResumeSave = now; saveResumeState(); notifyNative(); }
   });
   window.addEventListener('beforeunload', saveResumeState);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveResumeState(); });
